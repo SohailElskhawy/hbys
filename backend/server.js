@@ -8,34 +8,20 @@ const doktorRoutes = require('./routes/doktor.routes');
 const randevuRoutes = require('./routes/randevu.routes');
 const bolumRoutes = require('./routes/bolum.routes');
 const istatistikRoutes = require('./routes/istatistik.routes');
+
+
 const app = express();
+
 app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(express.json());
+
 app.use('/api/auth', authRoutes);
 app.use('/api/hastalar', hastaRoutes);
 app.use('/api/doktorlar', doktorRoutes);
 app.use('/api/randevular', randevuRoutes);
 app.use('/api/bolumler', bolumRoutes);
 app.use('/api/istatistikler', istatistikRoutes);
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server: http://localhost:${PORT}`));// backend/server.js
-const express = require('express');
-const cors = require('cors');
-require('dotenv').config();
-const authRoutes = require('./routes/auth.routes');
-const hastaRoutes = require('./routes/hasta.routes');
-const doktorRoutes = require('./routes/doktor.routes');
-const randevuRoutes = require('./routes/randevu.routes');
-const bolumRoutes = require('./routes/bolum.routes');
-const istatistikRoutes = require('./routes/istatistik.routes');
-const app = express();
-app.use(cors({ origin: 'http://localhost:5173' }));
-app.use(express.json());
-app.use('/api/auth', authRoutes);
-app.use('/api/hastalar', hastaRoutes);
-app.use('/api/doktorlar', doktorRoutes);
-app.use('/api/randevular', randevuRoutes);
-app.use('/api/bolumler', bolumRoutes);
-app.use('/api/istatistikler', istatistikRoutes);
-const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => console.log(`Server: http://localhost:${PORT}`));
