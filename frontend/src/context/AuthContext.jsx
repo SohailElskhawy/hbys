@@ -51,6 +51,7 @@ export const AuthProvider = ({ children }) => { //  children = components wrappe
         setUser(res.data.user);
         return res.data.user.rol; // 'admin' | 'doktor' |'hasta'
     };
+
     const logout = () => {
         localStorage.removeItem('token');
         delete axios.defaults.headers.common['Authorization'];
