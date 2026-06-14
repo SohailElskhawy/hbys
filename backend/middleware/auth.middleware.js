@@ -1,33 +1,28 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
+const db = require('../config/db');
 
-const authMiddleware = (req, res, next) => {
+module.exports = async (req, res, next) => {
     try {
         const authHeader = req.headers.authorization;
-
-        if (!authHeader) {
-            return res.status(401).json({
-                message: "Token bulunamadı. Lütfen giriş yapın."
-            });
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return res.status(401).json({ message: 'Unauthorized' });
         }
 
-        const token = authHeader.split(" ")[1];
-
-        if (!token) {
-            return res.status(401).json({
-                message: "Geçersiz token formatı."
-            });
-        }
-
+        const token = authHeader.split(' ')[1];
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        req.user = decoded;
+        const [rows] = await db.execute(
+            'SELECT id, ad, soyad, email, rol, aktif FROM kullanicilar WHERE id = ?',
+            [decoded.id]
+        );
 
+        if (rows.length === 0 || !rows[0].aktif) {
+            return res.status(401).json({ message: 'Unauthorized' });
+        }
+
+        req.user = rows[0];
         next();
     } catch (error) {
-        return res.status(401).json({
-            message: "Token geçersiz veya süresi dolmuş."
-        });
+        return res.status(401).json({ message: 'Unauthorized' });
     }
 };
-
-module.exports = authMiddleware;

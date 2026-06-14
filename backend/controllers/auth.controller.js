@@ -1,50 +1,36 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const db = require("../config/db");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const db = require('../config/db');
 
-// POST /api/auth/login
-const login = async (req, res) => {
+exports.login = async (req, res) => {
     try {
         const { email, sifre } = req.body;
-
         if (!email || !sifre) {
-            return res.status(400).json({
-                message: "Email ve şifre zorunludur."
-            });
+            return res.status(400).json({ message: 'Email and password are required' });
         }
 
-        const [users] = await db.execute(
-            "SELECT * FROM kullanicilar WHERE email = ? AND aktif = 1",
+        const [rows] = await db.execute(
+            'SELECT id, ad, soyad, email, sifre_hash, rol, aktif FROM kullanicilar WHERE email = ?',
             [email]
         );
 
-        if (users.length === 0) {
-            return res.status(401).json({
-                message: "Email veya şifre hatalı."
-            });
+        if (rows.length === 0) {
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        const user = users[0];
-
-        const isPasswordCorrect = await bcrypt.compare(sifre, user.sifre_hash);
-
-        if (!isPasswordCorrect) {
-            return res.status(401).json({
-                message: "Email veya şifre hatalı."
-            });
+        const user = rows[0];
+        if (!user.aktif) {
+            return res.status(403).json({ message: 'Account is suspended' });
         }
 
-        const token = jwt.sign(
-            {
-                id: user.id,
-                email: user.email,
-                rol: user.rol
-            },
-            process.env.JWT_SECRET,
-            { expiresIn: "1d" }
-        );
+        const isMatch = await bcrypt.compare(sifre, user.sifre_hash);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
 
-        res.json({
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+
+        return res.json({
             token,
             user: {
                 id: user.id,
@@ -54,50 +40,52 @@ const login = async (req, res) => {
                 rol: user.rol
             }
         });
-
     } catch (error) {
-        console.error("Login error:", error);
-        res.status(500).json({
-            message: "Sunucu hatası."
-        });
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
     }
 };
 
-// GET /api/auth/me
-const me = async (req, res) => {
+exports.logout = async (req, res) => {
+    return res.json({ message: 'Logged out successfully' });
+};
+
+exports.me = async (req, res) => {
+    return res.json({ user: req.user });
+};
+
+exports.changePassword = async (req, res) => {
     try {
-        const [users] = await db.execute(
-            "SELECT id, ad, soyad, email, rol FROM kullanicilar WHERE id = ? AND aktif = 1",
+        const { mevcutSifre, yeniSifre } = req.body;
+        if (!mevcutSifre || !yeniSifre) {
+            return res.status(400).json({ message: 'Current and new passwords are required' });
+        }
+
+        const [rows] = await db.execute(
+            'SELECT sifre_hash FROM kullanicilar WHERE id = ?',
             [req.user.id]
         );
 
-        if (users.length === 0) {
-            return res.status(404).json({
-                message: "Kullanıcı bulunamadı."
-            });
+        if (rows.length === 0) {
+            return res.status(404).json({ message: 'User not found' });
         }
 
-        res.json({
-            user: users[0]
-        });
+        const isMatch = await bcrypt.compare(mevcutSifre, rows[0].sifre_hash);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Incorrect current password' });
+        }
 
+        const salt = await bcrypt.genSalt(10);
+        const newHash = await bcrypt.hash(yeniSifre, salt);
+
+        await db.execute(
+            'UPDATE kullanicilar SET sifre_hash = ? WHERE id = ?',
+            [newHash, req.user.id]
+        );
+
+        return res.json({ message: 'Password updated successfully' });
     } catch (error) {
-        console.error("Me error:", error);
-        res.status(500).json({
-            message: "Sunucu hatası."
-        });
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
     }
-};
-
-// POST /api/auth/logout
-const logout = (req, res) => {
-    res.json({
-        message: "Çıkış başarılı."
-    });
-};
-
-module.exports = {
-    login,
-    me,
-    logout
 };
