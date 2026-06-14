@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NotFound = () => {
+const NotFoundPage = () => {
     return (
         <div>404 Error <br />
             Page Not Found <br />
@@ -11,24 +11,10 @@ const NotFound = () => {
             '/'
             <br />
             '/login'
-
             <br />
-            '/hastalar'
+            '/loginpage'
 
-            <br />
-            '/dashboard'
 
-            <br />
-            '/doktorlar'
-
-            <br />
-            '/randevular'
-
-            <br />
-            '/bolumler'
-
-            <br />
-            '/profil'
 
 
         </div>
@@ -36,4 +22,4 @@ const NotFound = () => {
     )
 }
 
-export default NotFound
+export default NotFoundPage

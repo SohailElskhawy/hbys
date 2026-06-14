@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Doktorlar = () => {
+const DoktorlarPage = () => {
     return (
         <div>Doktorlar</div>
     )
 }
 
-export default Doktorlar
+export default DoktorlarPage

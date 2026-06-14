@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Bolumler = () => {
+const BolumlerPage = () => {
     return (
         <div>Bolumler</div>
     )
 }
 
-export default Bolumler
+export default BolumlerPage

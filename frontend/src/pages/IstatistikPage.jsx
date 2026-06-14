@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Istatistik = () => {
+const IstatistikPage = () => {
     return (
         <div>Istatistik</div>
     )
 }
 
-export default Istatistik
+export default IstatistikPage

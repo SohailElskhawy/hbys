@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Randevular = () => {
+const RandevularPage = () => {
     return (
         <div>Randevular</div>
     )
 }
 
-export default Randevular
+export default RandevularPage

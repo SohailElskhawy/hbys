@@ -1,9 +1,9 @@
 import React from 'react'
 
-const Hastalar = () => {
+const HastalarPage = () => {
     return (
         <div>Hastalar</div>
     )
 }
 
-export default Hastalar
+export default HastalarPage

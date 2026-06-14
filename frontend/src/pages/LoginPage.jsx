@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-const Login = () => {
+const LoginPage = () => {
     // keep track of the email & password values [+]
     // use the email & password values as an argument for the login() for auth [+]
     // check if the login page leads to 'dashboard' page after login in [+]
@@ -163,4 +163,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default LoginPage
