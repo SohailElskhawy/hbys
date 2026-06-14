@@ -41,6 +41,7 @@ exports.login = async (req, res) => {
             }
         });
     } catch (error) {
+        console.error(error);
         return res.status(500).json({ message: 'Server error' });
     }
 };
@@ -84,6 +85,7 @@ exports.changePassword = async (req, res) => {
 
         return res.json({ message: 'Password updated successfully' });
     } catch (error) {
+        console.error(error);
         return res.status(500).json({ message: 'Server error' });
     }
 };
