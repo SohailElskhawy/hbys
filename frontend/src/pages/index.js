@@ -1,10 +1,10 @@
-export { default as Login } from './Login';
-export { default as Dashboard } from './Dashboard';
-export { default as Profil } from './Profil';
-export { default as Istatistik } from './Istatistik';
-export { default as Hastalar } from './Hastalar';
-export { default as Doktorlar } from './Doktorlar';
-export { default as Bolumler } from './Bolumler';
-export { default as Randevular } from './Randevular';
+export { default as LoginPage } from './LoginPage';
+export { default as DashboardPage } from './DashboardPage';
+export { default as ProfilPage } from './ProfilPage';
+export { default as IstatistikPage } from './IstatistikPage';
+export { default as HastalarPage } from './HastalarPage';
+export { default as DoktorlarPage } from './DoktorlarPage';
+export { default as BolumlerPage } from './BolumlerPage';
+export { default as RandevularPage } from './RandevularPage';
 
-export { default as NotFound } from './NotFound';
+export { default as NotFoundPage } from './NotFoundPage';
