@@ -1,8 +1,12 @@
 import React from 'react'
-
+import { MainLayout } from '../components/layout'
 const RandevularPage = () => {
     return (
-        <div>Randevular</div>
+        <MainLayout>
+            <div>
+                <h1>dashboard</h1>
+            </div>
+        </MainLayout>
     )
 }
 
