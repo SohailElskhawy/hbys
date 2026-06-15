@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 const pageTitles = {
@@ -25,7 +26,7 @@ const Navbar = () => {
     const location = useLocation();
 
     const pageTitle = pageTitles[location.pathname] || "HBYS Panel";
-    const role = user?.rol || "misafir";
+    const role = user?.rol || "Anonim"; // anonim durin dev purpose
     const actionButtonText = actionButtons[location.pathname];
 
     return (
@@ -33,6 +34,15 @@ const Navbar = () => {
             <span className="navbar-brand fw-bold text-primary mb-0">
                 {pageTitle}
             </span>
+
+            <button
+                type="button"
+                className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2"
+                disabled
+            >
+                <i className="bi bi-circle-half"></i>
+                Tema
+            </button>
 
             <div className="ms-auto d-flex align-items-center gap-3">
                 {location.pathname === "/dashboard" && (
@@ -49,6 +59,8 @@ const Navbar = () => {
                         + {actionButtonText}
                     </button>
                 )}
+
+
 
                 <span className="badge bg-secondary text-capitalize">
                     {role}

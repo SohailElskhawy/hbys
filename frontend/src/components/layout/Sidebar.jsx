@@ -6,7 +6,7 @@ const Sidebar = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
 
-    const role = user?.rol || "hasta"; // misafir acts like hasta for development
+    const role = user?.rol || "admin"; // admin for dev purpose 
 
     const handleLogout = () => {
         logout();
@@ -28,6 +28,7 @@ const Sidebar = () => {
             { title: "Dashboard", path: "/dashboard" },
             { title: "Randevularım", path: "/randevular" },
             { title: "Hastalarım", path: "/hastalar" },
+            { title: "Bölümler", path: "/bolumler" },
             { title: "Profil", path: "/profil" },
         ],
 
@@ -35,11 +36,12 @@ const Sidebar = () => {
             { title: "Dashboard", path: "/dashboard" },
             { title: "Doktorlar", path: "/doktorlar" },
             { title: "Randevularım", path: "/randevular" },
+            { title: "Bölümler", path: "/bolumler" },
             { title: "Profil", path: "/profil" },
         ],
     };
 
-    const menuItems = menuByRole[role] || menuByRole.hasta;
+    const menuItems = menuByRole[role] || menuByRole.admin;
 
     return (
         <aside
