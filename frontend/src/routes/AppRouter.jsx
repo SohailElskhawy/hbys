@@ -16,12 +16,12 @@ const AppRouter = () => {
                     </PrivateRoute>
                 } />
                 <Route path="/hastalar" element={
-                    <PrivateRoute>
+                    <PrivateRoute roles={['admin', 'doktor']}>
                         <HastalarPage />
                     </PrivateRoute>
                 } />
                 <Route path="/doktorlar" element={
-                    <PrivateRoute>
+                    <PrivateRoute roles={['admin', 'hasta']}>
                         <DoktorlarPage />
                     </PrivateRoute>
                 } />
@@ -41,7 +41,7 @@ const AppRouter = () => {
                     </PrivateRoute>
                 } />
                 <Route path="/istatistik" element={
-                    <PrivateRoute>
+                    <PrivateRoute roles={['admin']}>
                         <IstatistikPage />
                     </PrivateRoute>
                 } />

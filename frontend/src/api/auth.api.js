@@ -13,3 +13,11 @@ export const getMeApi = async () => {
     const response = await axios.get("/api/auth/me");
     return response.data;
 };
+
+export const changePasswordApi = async (mevcutSifre, yeniSifre) => {
+    const response = await axios.put("/api/auth/change-password", {
+        mevcutSifre,
+        yeniSifre,
+    });
+    return response.data;
+};

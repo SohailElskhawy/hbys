@@ -26,7 +26,7 @@ const Navbar = () => {
     const location = useLocation();
 
     const pageTitle = pageTitles[location.pathname] || "HBYS Panel";
-    const role = user?.rol || "Anonim"; // anonim durin dev purpose
+    const role = user?.rol || "Anonim";
     const actionButtonText = actionButtons[location.pathname];
 
     return (

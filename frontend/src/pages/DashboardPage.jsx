@@ -12,7 +12,6 @@ const DashboardPage = () => {
 
     return (
         <MainLayout>
-            {/*  '!user' for dev purpose it'll be removed  */}
             {(user?.rol === 'admin' || !user) && (
                 <AdminDashboardContent />
             )}
@@ -32,7 +31,7 @@ const DashboardPage = () => {
 
 function AdminDashboardContent() {
 
-    const bolumDagilimi = [ // fake data for dev purpos
+    const bolumDagilimi = [
         { name: "Kardiyoloji", value: 5 },
         { name: "Nöroloji", value: 3 },
         { name: "Diş", value: 4 },
@@ -40,7 +39,7 @@ function AdminDashboardContent() {
         { name: "Göz", value: 2 },
     ];
 
-    const aylikRandevular = [ // // fake data for dev purpos
+    const aylikRandevular = [
         { ay: "Oca", randevu: 120 },
         { ay: "Şub", randevu: 95 },
         { ay: "Mar", randevu: 140 },
@@ -49,7 +48,7 @@ function AdminDashboardContent() {
         { ay: "Haz", randevu: 210 },
     ];
 
-    const stats = [// fake data for dev purpos
+    const stats = [
         {
             title: "Hastalar",
             value: 142,
@@ -76,7 +75,7 @@ function AdminDashboardContent() {
         }
     ];
 
-    const appointments = [// fake data for dev purpos
+    const appointments = [
         {
             id: 1,
             hasta: "Ahmet Yılmaz",
@@ -136,7 +135,6 @@ function AdminDashboardContent() {
             <br />
 
 
-            {/* // data-table starts */}
             <div className="card shadow-sm border-0">
                 <div className="card-header bg-white">
                     <h5 className="mb-0">Son Randevular</h5>
@@ -182,7 +180,6 @@ function AdminDashboardContent() {
                     </table>
                 </div>
             </div>
-            {/* // data-table  ends */}
         </>
     )
 }
