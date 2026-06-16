@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react'
 import axios from 'axios'
+import { loginApi, getMeApi } from '../api/auth.api'
 
 export const AuthContext = createContext(null)
 
@@ -11,8 +12,8 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem('token')
         if (token) {
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-            axios.get('/api/auth/me')
-                .then(res => setUser(res.data.user))
+            getMeApi()
+                .then(data => setUser(data.user))
                 .catch(() => {
                     localStorage.removeItem('token')
                     delete axios.defaults.headers.common['Authorization']
@@ -25,11 +26,11 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     const login = async (email, sifre) => {
-        const res = await axios.post('/api/auth/login', { email, sifre })
-        localStorage.setItem('token', res.data.token)
-        axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`
-        setUser(res.data.user)
-        return res.data.user.rol
+        const data = await loginApi(email, sifre)
+        localStorage.setItem('token', data.token)
+        axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
+        setUser(data.user)
+        return data.user.rol
     }
 
     const logout = () => {
@@ -44,3 +45,4 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     )
 }
+

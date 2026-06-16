@@ -6,7 +6,7 @@ const Sidebar = () => {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
 
-    const role = user?.rol || "admin"; // admin for dev purpose 
+    const role = user?.rol || "admin";
 
     const handleLogout = () => {
         logout();

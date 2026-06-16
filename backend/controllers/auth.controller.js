@@ -30,6 +30,15 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1d' });
 
+        let profile_id = null;
+        if (user.rol === 'hasta') {
+            const [hRows] = await db.execute('SELECT id FROM hastalar WHERE kullanici_id = ?', [user.id]);
+            if (hRows.length > 0) profile_id = hRows[0].id;
+        } else if (user.rol === 'doktor') {
+            const [dRows] = await db.execute('SELECT id FROM doktorlar WHERE kullanici_id = ?', [user.id]);
+            if (dRows.length > 0) profile_id = dRows[0].id;
+        }
+
         return res.json({
             token,
             user: {
@@ -37,7 +46,8 @@ exports.login = async (req, res) => {
                 ad: user.ad,
                 soyad: user.soyad,
                 email: user.email,
-                rol: user.rol
+                rol: user.rol,
+                profile_id
             }
         });
     } catch (error) {
