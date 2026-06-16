@@ -1,8 +1,12 @@
 import React from 'react'
-
+import { MainLayout } from '../components/layout'
 const DoktorlarPage = () => {
     return (
-        <div>Doktorlar</div>
+        <MainLayout>
+            <div>
+                <h1>doktorlar</h1>
+            </div>
+        </MainLayout>
     )
 }
 
