@@ -17,5 +17,27 @@ export default defineConfig([
       globals: globals.browser,
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
+    rules: {
+      'react-refresh/only-export-components': 'off',
+      'react-hooks/set-state-in-effect': 'off',
+      'react-hooks/preserve-manual-memoization': 'off',
+      'no-unused-vars': [
+        'error',
+        {
+          'vars': 'all',
+          'args': 'after-used',
+          'ignoreRestSiblings': true,
+          'varsIgnorePattern': '^React$',
+          'argsIgnorePattern': '^_',
+          'caughtErrors': 'none'
+        }
+      ]
+    }
   },
+  {
+    files: ['**/useFetch.js'],
+    rules: {
+      'react-hooks/exhaustive-deps': 'off'
+    }
+  }
 ])

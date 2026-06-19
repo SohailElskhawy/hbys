@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 import { getHastalarApi } from '../../api/hasta.api';
 import { getBolumlerApi } from '../../api/bolum.api';
