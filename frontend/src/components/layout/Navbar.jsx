@@ -1,5 +1,6 @@
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { useTheme } from "../../context/ThemeContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
@@ -23,18 +24,15 @@ const actionButtons = {
 
 const Navbar = () => {
     const { user } = useAuth();
+    const { theme, toggleTheme } = useTheme();
     const location = useLocation();
 
     const pageTitle = pageTitles[location.pathname] || "HBYS Panel";
-<<<<<<< HEAD
-    const role = user?.rol || "admin"; // anonim durin dev purpose
-=======
     const role = user?.rol || "Anonim";
->>>>>>> f2fc2dc532792323822aba99304ac6828d4541f9
     const actionButtonText = actionButtons[location.pathname];
 
     return (
-        <nav className="navbar bg-white border-bottom px-4 shadow-sm">
+        <nav className="navbar bg-body-tertiary border-bottom px-4 shadow-sm">
             <span className="navbar-brand fw-bold text-primary mb-0">
                 {pageTitle}
             </span>
@@ -42,10 +40,10 @@ const Navbar = () => {
             <button
                 type="button"
                 className="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2"
-                disabled
+                onClick={toggleTheme}
             >
-                <i className="bi bi-circle-half"></i>
-                Tema
+                <i className={`bi ${theme === 'dark' ? 'bi-sun-fill' : 'bi-moon-fill'}`}></i>
+                {theme === 'dark' ? 'Açık Tema' : 'Koyu Tema'}
             </button>
 
             <div className="ms-auto d-flex align-items-center gap-3">
@@ -59,7 +57,10 @@ const Navbar = () => {
                 )}
 
                 {actionButtonText && (
-                    <button className="btn btn-primary">
+                    <button 
+                        className="btn btn-primary"
+                        onClick={() => window.dispatchEvent(new CustomEvent('navbar-action-click'))}
+                    >
                         + {actionButtonText}
                     </button>
                 )}

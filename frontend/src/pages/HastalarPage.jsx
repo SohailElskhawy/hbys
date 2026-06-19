@@ -44,7 +44,6 @@ const HastalarPage = () => {
     const isAdmin = user?.rol === 'admin';
 
     const [patients, setPatients] = useState([]);
-    const [total, setTotal] = useState(0);
     const [page, setPage] = useState(1);
     const [limit] = useState(10);
     const [totalPages, setTotalPages] = useState(1);
@@ -64,7 +63,6 @@ const HastalarPage = () => {
         try {
             const res = await getHastalarApi(page, limit, search);
             setPatients(res.data);
-            setTotal(res.total);
             setTotalPages(res.totalPages);
         } catch (err) {
             setAlert({ message: 'Hastalar yüklenirken bir hata oluştu.', type: 'danger' });
