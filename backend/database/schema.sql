@@ -70,11 +70,11 @@ CREATE TABLE randevular (
 );
 
 INSERT INTO kullanicilar (ad, soyad, email, sifre_hash, rol, aktif) VALUES
-('Sohail', 'Admin', 'admin@hbys.com', '$2b$10$AL/vYA5Epejrk4d9GgDueu5HrriWD8fAiNYaiY1XJbe9bG.S9JB7i', 'admin', 1),
-('Ahmet', 'Yilmaz', 'ahmet@hbys.com', '$2b$10$AL/vYA5Epejrk4d9GgDueu5HrriWD8fAiNYaiY1XJbe9bG.S9JB7i', 'doktor', 1),
-('Ayse', 'Ozturk', 'ayse@hbys.com', '$2b$10$AL/vYA5Epejrk4d9GgDueu5HrriWD8fAiNYaiY1XJbe9bG.S9JB7i', 'doktor', 1),
-('Mehmet', 'Kaya', 'mehmet@hbys.com', '$2b$10$AL/vYA5Epejrk4d9GgDueu5HrriWD8fAiNYaiY1XJbe9bG.S9JB7i', 'hasta', 1),
-('Fatma', 'Demir', 'fatma@hbys.com', '$2b$10$AL/vYA5Epejrk4d9GgDueu5HrriWD8fAiNYaiY1XJbe9bG.S9JB7i', 'hasta', 1);
+('Sohail', 'Admin', 'admin@hbys.com', '$2b$10$RHptqFRaleuLLbdXxZcQa.JCkrqMu2jo.KabGLwcyyEeOP61fuO9C', 'admin', 1),
+('Ahmet', 'Yilmaz', 'ahmet@hbys.com', '$2b$10$RHptqFRaleuLLbdXxZcQa.JCkrqMu2jo.KabGLwcyyEeOP61fuO9C', 'doktor', 1),
+('Ayse', 'Ozturk', 'ayse@hbys.com', '$2b$10$RHptqFRaleuLLbdXxZcQa.JCkrqMu2jo.KabGLwcyyEeOP61fuO9C', 'doktor', 1),
+('Mehmet', 'Kaya', 'mehmet@hbys.com', '$2b$10$RHptqFRaleuLLbdXxZcQa.JCkrqMu2jo.KabGLwcyyEeOP61fuO9C', 'hasta', 1),
+('Fatma', 'Demir', 'fatma@hbys.com', '$2b$10$RHptqFRaleuLLbdXxZcQa.JCkrqMu2jo.KabGLwcyyEeOP61fuO9C', 'hasta', 1);
 
 INSERT INTO bolumler (bolum_adi, aciklama, kat, dahili, aktif) VALUES
 ('Kardiyoloji', 'Kalp ve damar hastaliklari bolumu', '2', '201', 1),
