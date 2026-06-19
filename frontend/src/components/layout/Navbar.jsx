@@ -46,15 +46,6 @@ const Navbar = () => {
             </button>
 
             <div className="ms-auto d-flex align-items-center gap-3">
-                {location.pathname === "/dashboard" && (
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder="Arama..."
-                        style={{ width: "260px" }}
-                    />
-                )}
-
                 {actionButtonText && (
                     <button 
                         className="btn btn-primary"

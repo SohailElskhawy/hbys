@@ -36,7 +36,7 @@ exports.getHastalar = async (req, res) => {
         const [countResult] = await db.execute(countStr, params);
         const total = countResult[0].total;
 
-        const [rows] = await db.execute(queryStr, queryParams);
+        const [rows] = await db.query(queryStr, queryParams);
 
         return res.json({
             data: rows,

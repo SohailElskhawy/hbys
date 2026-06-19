@@ -36,7 +36,7 @@ const DataTable = ({ columns, data, isLoading, emptyMessage = 'KayÄ±t bulunamadÄ
                         <tr key={row.id || rowIndex}>
                             {columns.map((col, colIndex) => (
                                 <td key={colIndex}>
-                                    {col.render ? col.render(row) : row[col.key]}
+                                    {col.render ? col.render(row, rowIndex) : row[col.key]}
                                 </td>
                             ))}
                         </tr>
