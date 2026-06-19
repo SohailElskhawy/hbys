@@ -1,5 +1,5 @@
 import { Footer, Sidebar, Navbar } from "./index";
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 const MainLayout = ({ children }) => {

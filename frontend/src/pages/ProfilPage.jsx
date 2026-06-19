@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MainLayout } from '../components/layout';
-import AlertMessage from '../components/common/AlertMessage';
+import { AlertMessage } from '../components/common';
 import { useAuth } from '../hooks/useAuth';
 import { changePasswordApi } from '../api/auth.api';
 import { getHastaByIdApi, updateHastaApi } from '../api/hasta.api';

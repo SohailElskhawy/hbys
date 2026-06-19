@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MainLayout } from '../components/layout'
-import PieChart from "../components/charts/PieChart"
-import BarChart from '../components/charts/BarChart'
-import StatCard from "../components/common/StatCard"
-import LoadingSpinner from "../components/common/LoadingSpinner"
-import AlertMessage from "../components/common/AlertMessage"
+import { PieChart, BarChart } from '../components/charts'
+import { StatCard, LoadingSpinner, AlertMessage } from '../components/common'
 import { useAuth } from '../hooks/useAuth'
 import { getHastalarApi, getHastaRandevularApi } from '../api/hasta.api'
 import { getDoktorlarApi, getDoktorRandevularApi } from '../api/doktor.api'

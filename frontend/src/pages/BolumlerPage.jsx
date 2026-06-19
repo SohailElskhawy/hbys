@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { MainLayout } from '../components/layout';
-import LoadingSpinner from '../components/common/LoadingSpinner';
-import AlertMessage from '../components/common/AlertMessage';
-import Badge from '../components/common/Badge';
-import BolumForm from '../components/forms/BolumForm';
+import { LoadingSpinner, AlertMessage, Badge, Modal, ConfirmModal } from '../components/common';
+import { BolumForm } from '../components/forms';
 import { useAuth } from '../hooks/useAuth';
 import {
     getBolumlerApi,
@@ -12,28 +10,6 @@ import {
     updateBolumApi,
     deleteBolumApi
 } from '../api/bolum.api';
-
-const Modal = ({ show, title, onClose, children }) => {
-    if (!show) return null;
-    return (
-        <>
-            <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1045 }}>
-                <div className="modal-dialog modal-lg modal-dialog-scrollable">
-                    <div className="modal-content border-0 shadow-lg">
-                        <div className="modal-header">
-                            <h5 className="modal-title fw-bold">{title}</h5>
-                            <button type="button" className="btn-close" onClick={onClose}></button>
-                        </div>
-                        <div className="modal-body p-4">
-                            {children}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="modal-backdrop fade show" style={{ zIndex: 1040 }}></div>
-        </>
-    );
-};
 
 const BolumlerPage = () => {
     const { user } = useAuth();
@@ -45,6 +21,7 @@ const BolumlerPage = () => {
 
     const [showFormModal, setShowFormModal] = useState(false);
     const [showDetailModal, setShowDetailModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [selectedBolum, setSelectedBolum] = useState(null);
     const [detailData, setDetailData] = useState(null);
     const [isLoadingDetail, setIsLoadingDetail] = useState(false);
@@ -112,11 +89,16 @@ const BolumlerPage = () => {
         }
     };
 
-    const handleDeleteClick = async (id) => {
-        if (!window.confirm('Bu bölümü silmek istediğinize emin misiniz?')) return;
+    const handleDeleteClick = (bolum) => {
+        setSelectedBolum(bolum);
+        setShowDeleteModal(true);
+    };
+
+    const handleDeleteConfirm = async () => {
         try {
-            await deleteBolumApi(id);
+            await deleteBolumApi(selectedBolum.id);
             setAlert({ message: 'Bölüm başarıyla silindi.', type: 'success' });
+            setShowDeleteModal(false);
             fetchDepartments();
         } catch (err) {
             setAlert({ message: 'Bölüm silinirken bir hata oluştu.', type: 'danger' });
@@ -195,7 +177,7 @@ const BolumlerPage = () => {
                                                         </button>
                                                         <button 
                                                             className="btn btn-sm btn-outline-danger"
-                                                            onClick={() => handleDeleteClick(d.id)}
+                                                            onClick={() => handleDeleteClick(d)}
                                                         >
                                                             <i className="bi bi-trash"></i>
                                                         </button>
@@ -288,6 +270,14 @@ const BolumlerPage = () => {
                         </div>
                     )}
                 </Modal>
+
+                <ConfirmModal
+                    show={showDeleteModal}
+                    title="Bölüm Sil"
+                    message={`"${selectedBolum?.bolum_adi}" bölümünü silmek istediğinize emin misiniz?`}
+                    onConfirm={handleDeleteConfirm}
+                    onCancel={() => setShowDeleteModal(false)}
+                />
             </div>
         </MainLayout>
     );

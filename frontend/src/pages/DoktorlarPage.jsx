@@ -2,11 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { MainLayout } from '../components/layout';
-import SearchBar from '../components/common/SearchBar';
-import ConfirmModal from '../components/common/ConfirmModal';
-import AlertMessage from '../components/common/AlertMessage';
-import Badge from '../components/common/Badge';
-import DoktorForm from '../components/forms/DoktorForm';
+import { SearchBar, ConfirmModal, AlertMessage, Badge, Modal } from '../components/common';
+import { DoktorForm } from '../components/forms';
 import { useAuth } from '../hooks/useAuth';
 import { formatDate } from '../utils/formatDate';
 import {
@@ -16,28 +13,6 @@ import {
     deleteDoktorApi,
     getDoktorRandevularApi
 } from '../api/doktor.api';
-
-const Modal = ({ show, title, onClose, children }) => {
-    if (!show) return null;
-    return (
-        <>
-            <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1045 }}>
-                <div className="modal-dialog modal-lg modal-dialog-scrollable">
-                    <div className="modal-content border-0 shadow-lg">
-                        <div className="modal-header">
-                            <h5 className="modal-title fw-bold">{title}</h5>
-                            <button type="button" className="btn-close" onClick={onClose}></button>
-                        </div>
-                        <div className="modal-body p-4">
-                            {children}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="modal-backdrop fade show" style={{ zIndex: 1040 }}></div>
-        </>
-    );
-};
 
 const DoktorlarPage = () => {
     const { user } = useAuth();

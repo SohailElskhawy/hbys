@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MainLayout } from '../components/layout';
-import LoadingSpinner from '../components/common/LoadingSpinner';
-import AlertMessage from '../components/common/AlertMessage';
+import { LoadingSpinner, AlertMessage } from '../components/common';
 import {
     ResponsiveContainer,
     BarChart,

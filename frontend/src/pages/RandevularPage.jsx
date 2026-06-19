@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { MainLayout } from '../components/layout';
-import Badge from '../components/common/Badge';
-import LoadingSpinner from '../components/common/LoadingSpinner';
-import AlertMessage from '../components/common/AlertMessage';
-import RandevuForm from '../components/forms/RandevuForm';
+import { Badge, LoadingSpinner, AlertMessage, Modal, ConfirmModal } from '../components/common';
+import { RandevuForm } from '../components/forms';
 import { useAuth } from '../hooks/useAuth';
 import { getBolumlerApi } from '../api/bolum.api';
 import { getHastaRandevularApi } from '../api/hasta.api';
@@ -15,28 +13,6 @@ import {
     updateRandevuDurumApi,
     deleteRandevuApi
 } from '../api/randevu.api';
-
-const Modal = ({ show, title, onClose, children }) => {
-    if (!show) return null;
-    return (
-        <>
-            <div className="modal fade show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1045 }}>
-                <div className="modal-dialog modal-lg modal-dialog-scrollable">
-                    <div className="modal-content border-0 shadow-lg">
-                        <div className="modal-header">
-                            <h5 className="modal-title fw-bold">{title}</h5>
-                            <button type="button" className="btn-close" onClick={onClose}></button>
-                        </div>
-                        <div className="modal-body p-4">
-                            {children}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div className="modal-backdrop fade show" style={{ zIndex: 1040 }}></div>
-        </>
-    );
-};
 
 const RandevularPage = () => {
     const { user } = useAuth();
@@ -56,6 +32,9 @@ const RandevularPage = () => {
     const [showWizard, setShowWizard] = useState(false);
     const [completingApp, setCompletingApp] = useState(null);
     const [doctorNotes, setDoctorNotes] = useState('');
+    const [selectedApp, setSelectedApp] = useState(null);
+    const [showCancelModal, setShowCancelModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const fetchAppointments = useCallback(async () => {
         setIsLoading(true);
@@ -112,11 +91,16 @@ const RandevularPage = () => {
         }
     };
 
-    const handleCancel = async (id) => {
-        if (!window.confirm('Bu randevuyu iptal etmek istediginize emin misiniz?')) return;
+    const handleCancelClick = (app) => {
+        setSelectedApp(app);
+        setShowCancelModal(true);
+    };
+
+    const handleCancelConfirm = async () => {
         try {
-            await updateRandevuDurumApi(id, 'iptal');
+            await updateRandevuDurumApi(selectedApp.id, 'iptal');
             setAlert({ message: 'Randevu iptal edildi.', type: 'success' });
+            setShowCancelModal(false);
             fetchAppointments();
         } catch (err) {
             setAlert({ message: 'Randevu iptal edilirken hata olustu.', type: 'danger' });
@@ -153,11 +137,16 @@ const RandevularPage = () => {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!window.confirm('Bu randevuyu sistemden tamamen silmek istediginize emin misiniz?')) return;
+    const handleDeleteClick = (app) => {
+        setSelectedApp(app);
+        setShowDeleteModal(true);
+    };
+
+    const handleDeleteConfirm = async () => {
         try {
-            await deleteRandevuApi(id);
+            await deleteRandevuApi(selectedApp.id);
             setAlert({ message: 'Randevu silindi.', type: 'success' });
+            setShowDeleteModal(false);
             fetchAppointments();
         } catch (err) {
             setAlert({ message: 'Randevu silinirken hata olustu.', type: 'danger' });
@@ -315,7 +304,7 @@ const RandevularPage = () => {
                                                         {['beklemede', 'onaylandi'].includes(app.durum) && (isAdmin || isDoctor || isPatient) && (
                                                             <button 
                                                                 className="btn btn-sm btn-outline-danger"
-                                                                onClick={() => handleCancel(app.id)}
+                                                                onClick={() => handleCancelClick(app)}
                                                             >
                                                                 Iptal Et
                                                             </button>
@@ -323,7 +312,7 @@ const RandevularPage = () => {
                                                         {isAdmin && (
                                                             <button 
                                                                 className="btn btn-sm btn-outline-danger"
-                                                                onClick={() => handleDelete(app.id)}
+                                                                onClick={() => handleDeleteClick(app)}
                                                             >
                                                                 Sil
                                                             </button>
@@ -382,6 +371,22 @@ const RandevularPage = () => {
                         </form>
                     )}
                 </Modal>
+
+                <ConfirmModal
+                    show={showCancelModal}
+                    title="Randevu İptal"
+                    message="Bu randevuyu iptal etmek istediğinize emin misiniz?"
+                    onConfirm={handleCancelConfirm}
+                    onCancel={() => setShowCancelModal(false)}
+                />
+
+                <ConfirmModal
+                    show={showDeleteModal}
+                    title="Randevu Sil"
+                    message="Bu randevuyu sistemden tamamen silmek istediğinize emin misiniz?"
+                    onConfirm={handleDeleteConfirm}
+                    onCancel={() => setShowDeleteModal(false)}
+                />
             </div>
         </MainLayout>
     );
