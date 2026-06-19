@@ -12,15 +12,15 @@ const DashboardPage = () => {
 
     return (
         <MainLayout>
-            {(user?.rol === 'admin' || !user) && (
+            {(user?.rol === 'admin') && (
                 <AdminDashboardContent />
             )}
 
-            {user?.rol === 'doktor' && (
+            {(user?.rol === 'doktor') && (
                 <DoctorDashboardContent />
             )}
 
-            {(user?.rol === 'hasta') && (
+            {(user?.rol === 'hasta' || !user) && (
                 <PatientDashboardContent />
             )}
 
@@ -186,32 +186,337 @@ function AdminDashboardContent() {
 
 function PatientDashboardContent() {
 
+    const stats = [
+        {
+            title: "Yaklaşan Randevular",
+            value: 2,
+            icon: "bi-calendar-event",
+            variant: "primary"
+        },
+        {
+            title: "Tamamlanan Randevular",
+            value: 14,
+            icon: "bi-check-circle",
+            variant: "success"
+        }
+    ];
+
+    const nextAppointment = {
+        doktor: "Dr. Ayşe Demir",
+        bolum: "Kardiyoloji",
+        tarih: "18.06.2026",
+        saat: "14:30"
+    };
+
+    const favoriteDoctor = {
+        isim: "Dr. Ayşe Demir",
+        bolum: "Kardiyoloji",
+        ziyaretSayisi: 6
+    };
+
     return (
         <>
-            <h2 className="mb-4">
-                Hasta Dashboard
-            </h2>
+            {/* Stat Cards */}
+            <div className="row g-4 mb-4">
 
-            <div className="alert alert-success">
-                Randevularınız burada gösterilecek.
+                {stats.map((item) => (
+                    <div
+                        className="col-md-6"
+                        key={item.title}
+                    >
+                        <StatCard
+                            title={item.title}
+                            value={item.value}
+                            icon={item.icon}
+                            variant={item.variant}
+                        />
+                    </div>
+                ))}
+
+            </div>
+
+            {/* Widgets */}
+            <div className="row g-4">
+
+                {/* Next Appointment */}
+                <div className="col-lg-4">
+
+                    <div className="card shadow-sm border-0 h-100">
+
+                        <div className="card-header bg-white">
+                            <h5 className="mb-0">
+                                Sıradaki Randevum
+                            </h5>
+                        </div>
+
+                        <div className="card-body">
+
+                            <h6 className="fw-bold">
+                                {nextAppointment.doktor}
+                            </h6>
+
+                            <p className="text-muted mb-2">
+                                {nextAppointment.bolum}
+                            </p>
+
+                            <p className="mb-1">
+                                📅 {nextAppointment.tarih}
+                            </p>
+
+                            <p className="mb-0">
+                                🕒 {nextAppointment.saat}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {/* Favorite Doctor */}
+                <div className="col-lg-4">
+
+                    <div className="card shadow-sm border-0 h-100">
+
+                        <div className="card-header bg-white">
+                            <h5 className="mb-0">
+                                Favori Doktorum
+                            </h5>
+                        </div>
+
+                        <div className="card-body">
+
+                            <h6 className="fw-bold">
+                                {favoriteDoctor.isim}
+                            </h6>
+
+                            <p className="text-muted">
+                                {favoriteDoctor.bolum}
+                            </p>
+
+                            <span className="badge bg-primary">
+                                {favoriteDoctor.ziyaretSayisi} ziyaret
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {/* Quick Appointment */}
+                <div className="col-lg-4">
+
+                    <div className="card shadow-sm border-0 h-100">
+
+                        <div className="card-header bg-white">
+                            <h5 className="mb-0">
+                                Hızlı İşlemler
+                            </h5>
+                        </div>
+
+                        <div className="card-body d-flex flex-column justify-content-center">
+
+                            <button
+                                className="btn btn-primary btn-lg"
+                            >
+                                <i className="bi bi-calendar-plus me-2"></i>
+                                Yeni Randevu Al
+                            </button>
+
+                            <small className="text-muted mt-3 text-center">
+                                En yakın uygun randevuları görüntüle.
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
         </>
-    )
+    );
 }
 
 function DoctorDashboardContent() {
 
+    const stats = [
+        {
+            title: "Bugünkü Randevularım",
+            value: 8,
+            icon: "bi-calendar-check",
+            variant: "primary"
+        },
+        {
+            title: "Bekleyen Randevular",
+            value: 3,
+            icon: "bi-hourglass-split",
+            variant: "warning"
+        },
+        {
+            title: "Tamamlanan Randevular",
+            value: 24,
+            icon: "bi-check-circle",
+            variant: "success"
+        }
+    ];
+
+    const todaySchedule = [
+        {
+            saat: "09:00",
+            hasta: "Ahmet Yılmaz",
+            bolum: "Kardiyoloji"
+        },
+        {
+            saat: "10:30",
+            hasta: "Mehmet Kaya",
+            bolum: "Kardiyoloji"
+        },
+        {
+            saat: "13:00",
+            hasta: "Fatma Şahin",
+            bolum: "Kardiyoloji"
+        }
+    ];
+
+    const upcomingPatients = [
+        {
+            id: 1,
+            hasta: "Ayşe Demir",
+            tarih: "17.06.2026",
+            saat: "11:00"
+        },
+        {
+            id: 2,
+            hasta: "Ali Çelik",
+            tarih: "17.06.2026",
+            saat: "14:30"
+        },
+        {
+            id: 3,
+            hasta: "Zeynep Yıldız",
+            tarih: "18.06.2026",
+            saat: "09:15"
+        }
+    ];
+
     return (
         <>
-            <h2 className="mb-4">
-                Doktor Dashboard
-            </h2>
+            {/* Cards */}
+            <div className="row g-4 mb-4">
 
-            <div className="alert alert-info">
-                Yaklaşan randevularınız burada gösterilecek.
+                {stats.map((item) => (
+                    <div
+                        className="col-md-4"
+                        key={item.title}
+                    >
+                        <StatCard
+                            title={item.title}
+                            value={item.value}
+                            icon={item.icon}
+                            variant={item.variant}
+                        />
+                    </div>
+                ))}
+
+            </div>
+
+            {/* Widgets */}
+            <div className="row g-4">
+
+                {/* Today's Schedule */}
+                <div className="col-lg-6">
+
+                    <div className="card shadow-sm border-0 h-100">
+
+                        <div className="card-header bg-white">
+                            <h5 className="mb-0">
+                                Bugünkü Programım
+                            </h5>
+                        </div>
+
+                        <div className="card-body">
+
+                            <ul className="list-group list-group-flush">
+
+                                {todaySchedule.map((item, index) => (
+
+                                    <li
+                                        key={index}
+                                        className="list-group-item d-flex justify-content-between"
+                                    >
+                                        <span>
+                                            <strong>{item.saat}</strong>
+                                        </span>
+
+                                        <span>
+                                            {item.hasta}
+                                        </span>
+
+                                        <span className="text-muted">
+                                            {item.bolum}
+                                        </span>
+                                    </li>
+
+                                ))}
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {/* Upcoming Patients */}
+                <div className="col-lg-6">
+
+                    <div className="card shadow-sm border-0 h-100">
+
+                        <div className="card-header bg-white">
+                            <h5 className="mb-0">
+                                Yaklaşan Hastalar
+                            </h5>
+                        </div>
+
+                        <div className="card-body p-0">
+
+                            <table className="table table-hover mb-0">
+
+                                <thead className="table-light">
+                                    <tr>
+                                        <th>Hasta</th>
+                                        <th>Tarih</th>
+                                        <th>Saat</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {upcomingPatients.map((patient) => (
+
+                                        <tr key={patient.id}>
+                                            <td>{patient.hasta}</td>
+                                            <td>{patient.tarih}</td>
+                                            <td>{patient.saat}</td>
+                                        </tr>
+
+                                    ))}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
         </>
-    )
+    );
 }
 
 export default DashboardPage
